@@ -1,0 +1,26 @@
+---
+title: "Proposal"
+author: "Felix Baez, Carter Meseck, Austin Nebel, Ryan and Chris Anderson"
+output: html_document
+---
+
+The team will submit the link to their team final project GitHub repo. The repo should include a proposal.Rmd file, which contains the following items:
+
+1. The names of team members & project coordinator
+
+    Felix Baez, Carter Meseck, Austin Nebel, Ryan and Chris Anderson
+
+2. The link to the data source
+
+https://www.kaggle.com/fedesoriano/stroke-prediction-dataset
+
+3. An overview of the dataset
+
+    
+    
+4. A brief plan for an exploratory analysis: What questions can be answered from the dataset?
+     
+
+```{r}
+
+```

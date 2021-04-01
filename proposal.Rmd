@@ -22,5 +22,7 @@ https://www.kaggle.com/fedesoriano/stroke-prediction-dataset
      
 
 ```{r}
-
+library(readr) 
+df <- read_csv("healthcare-dataset-stroke-data.csv") 
+head(df)
 ```

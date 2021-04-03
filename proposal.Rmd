@@ -6,15 +6,15 @@ output: html_document
 
 The team will submit the link to their team final project GitHub repo. The repo should include a proposal.Rmd file, which contains the following items:
 
-1. The names of team members & project coordinator
+## 1. The names of team members & project coordinator
 
 Felix Baez, Carter Meseck, Austin Nebel, Ryan Herren and Chris Anderson
 
-2. The link to the data source
+## 2. The link to the data source
 
 https://www.kaggle.com/fedesoriano/stroke-prediction-dataset
 
-3. An overview of the dataset
+## 3. An overview of the dataset
 
 This dataset contains information for different factors that may be related to strokes. Strokes are believed to cause around 11% of total deaths. This dataset is used to predict whether a patient is likely to get stroke based on the variables like gender, age, various diseases, and smoking status. Each row in the data provides relavant information about the patient. The variables are listed below: 
 
@@ -33,7 +33,7 @@ This dataset contains information for different factors that may be related to s
 *Note: "Unknown" in smoking_status means that the information is unavailable for this patient
     
     
-4. A brief plan for an exploratory analysis: What questions can be answered from the dataset?
+## 4. A brief plan for an exploratory analysis: What questions can be answered from the dataset?
 We can answer many questions based on these variables but here are four that can help:
 - 1: What factor is the largest indicator of stroke for each age group?
 - 2: How does chance of stroke change with age for each employment category?

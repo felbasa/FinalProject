@@ -1,0 +1,61 @@
+---
+title: "Final Project"
+author: "Ryan Herren"
+date: "4/22/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(ggpubr)
+library(readr)
+library(readxl)
+library(dplyr)
+library(devtools)
+```
+
+```{r}
+data <- read.csv("/Users/ryanherren/Desktop/DS202/FinalProject/healthcare-dataset-stroke-data.csv")
+head(data)
+```
+
+## This chart explores the trend of strokes vs peoples ages.
+## Author: Ryan Herren
+```{r}
+strokes <- data[which(data$stroke == 1 & data$bmi != 'N/A'), ]
+ggplot(strokes, aes(x = age)) + geom_bar(color = 'red') + xlab("Age") + ylab("Number of Strokes") + ggtitle("Number of Strokes by Age")
+```
+
+## This chart explores the bmi and age of all people who reported having a stroke.
+## Author: Ryan Herren
+```{r}
+ggplot(strokes, aes(x=age, y = as.numeric(bmi))) + geom_point() + labs(x = "Age", y = "BMI")
+```
+
+## This chart explores the bmi and age of all people in the data set, whether or not they've had a stroke before. 
+## Author: Ryan Herren
+```{r}
+data1 <- na.omit(data)
+data1 <- data1[which(data1$bmi != 'N/A'), ]
+vstroke <- data1[which(data1$stroke == 1), ]
+vnostroke <- data1[which(data1$stroke == 0) ,]
+p1 <- ggplot() + geom_point(vnostroke, mapping = aes(x = age, y = as.numeric(bmi))) + geom_point(vstroke, mapping = aes(x = age, y = as.numeric(bmi), colour = 'red'))
+p1 + labs(x = "Age", y = "BMI") + ggtitle("Age vs Body Mass Index \nAll individuals who have had a stroke are marked by a red dot") + theme(legend.position = "none")
+```
+
+## This chart explores the relationship between Average Glucose Level, BMI, and stroke occurences.  
+## Author: Ryan Herren
+```{r}
+AGLBMI <- na.omit(data)
+AGLBMI <- AGLBMI[which(AGLBMI$bmi != 'N/A' & AGLBMI$avg_glucose_level != 'N/A'), ]
+AGLBMIS <- AGLBMI[which(data1$stroke == 1), ]
+AGLBMINS <- AGLBMI[which(data1$stroke == 0), ]
+p2 <- ggplot() + geom_point(AGLBMINS, mapping = aes(x = avg_glucose_level, y = as.numeric(bmi))) + geom_point(AGLBMIS, mapping = aes(x = avg_glucose_level, y = as.numeric(bmi), colour = 'red'))
+p2 + labs(x = "Average Glucose Level", y = "BMI") + ggtitle("Average Glucose Level vs Body Mass Index \nAll individuals who have had a stroke are marked by a red dot") + theme(legend.position = "none")
+```
+

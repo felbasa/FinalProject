@@ -1,0 +1,97 @@
+---
+title: "CarterMeseck"
+author: "Carter Meseck"
+date: "4/26/2021"
+output: html_document
+---
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggplot2)
+library(readr)
+library(readxl)
+library(dplyr)
+library(devtools)
+```
+```{r}
+data <- read.csv("/Users/kungf/OneDrive/Documents/FinalProject/healthcare-dataset-stroke-data.csv")
+head(data)
+
+
+```
+```{r}
+## Finding Average Person vs Average Person who has had a stroke.
+
+summary(data)
+table(data$gender)
+table(data$Residence_type)
+table(data$ever_married)
+table(data$work_type)
+table(data$smoking_status)
+
+
+## Average Person is 43(.23) years old.
+## Average Person has 5% chance to have heart disease
+## Average Person has 28.89 BMI
+## Average Person has 106.15 Glucose level
+## Average Person has 9.7% chance to have hypertension
+## Average person is a female
+## Average pesron has never smoked or unknown
+## Average person has a 4.9% chance to have had a stroke.
+## Average person lives in an urban residence
+## Average person is privately employed
+## Average person has been married
+
+strokes <- data[which(data$stroke == 1 & data$bmi != 'N/A'), ]
+
+summary(strokes)
+table(strokes$gender)
+table(strokes$Residence_type)
+table(strokes$ever_married)
+table(strokes$work_type)
+table(strokes$smoking_status)
+
+## Average Stroker is 67(.71) years old.
+## Average Stroker has 19.1% chance to have heart disease
+## Average Stroker has 30.5 BMI
+## Average Stroker has 134.6 Glucose level
+## Average Stroker has 28.7% chance to have hypertension
+## Average Stroker is a female (However the average person from our dataset was a female so not surprising)
+## Average Stroker has never smoked, second place being formerly smoked as opposed to unknown in non smokers.
+## Average Stroker has a 100% chance to have had a stroke.
+## Average Stroker lives in an urban residence, however the difference is only 9 so I wouldn't say this is statistically significant.
+## Average Stroker is privately employed
+## Average Stroker has been married
+
+
+```
+
+```{r}
+## Find average age of people by smoke group.
+smoke <- data[data$smoking_status == "smokes" | data$smoking_status == "formerly smoked", ]
+smoke
+
+summary(smoke)
+
+noSmoke <- data[data$smoking_status == "never smoked", ]
+noSmoke
+
+
+summary(noSmoke)
+
+
+## Average age of someone who has smoked or smoked in the past is 51.24
+## Average age of someone who hasn't smoked is 46.74
+## There is about an average increase of 2% in chance that someone who smoked will have had a stroke.
+
+```
+```{r}
+## Looking into female vs male to see if there are any discrepancies there.
+
+
+
+```
+
+
+

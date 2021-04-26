@@ -1,10 +1,10 @@
 ---
-title: "Final Team Report"
+title: "How likely are you to get a stroke?"
 author: "Felix Baez-Santiago, Carter Meseck, Ryan Herren, Austin Nebel and Chris Henderson"
 date: "4/27/2021"
 output: html_document
 ---
-0. Imports and Cleaning: 
+0. Imports and Cleaning: This is the section where we have our library imports, dataset import and cleaning. 
 ```{r, warning=FALSE, message=FALSE}
 library(tidyverse)
 library(ggplot2)
@@ -22,7 +22,7 @@ data <- read.csv("healthcare-dataset-stroke-data.csv")
 
 1. Dataset Background: 
 
-This dataset contains information for different factors that are often related to strokes. A stroke is a medical emergency where blood supply is suddenly cut off from the brain. Strokes are very dangerous as they are believed to cause around a tenth of all deaths in the United States. We used this dataset to answer different questions based on factors such as gender, age, smoking status and many more. Each row of the dataset provides relevant information to one of 500 patients. 
+Our dataset contains information for different factors that are often related to strokes. A stroke is a medical emergency where blood supply is suddenly cut off from the brain. Strokes are very dangerous as they are believed to cause around a tenth of all deaths in the United States. We used this dataset to answer different questions based on factors such as gender, age, smoking status and many more. Each row of the dataset provides relevant information to one of 500 patients. 
 
 1a. Dataset Variables:
 - 1: id: identifier for patient
@@ -40,7 +40,7 @@ This dataset contains information for different factors that are often related t
 *Note: "Unknown" in smoking_status means that the information is unavailable for this patient
 
 2. How did we obtain the data?
-* Carter will describe his process of finding the data *
+We found the dataset on Kaggle. Our team agreed to use this data because it is a very common health problem and it is very interesting to understand it. Carter found the dataset, downloaded it and suggested it to the group. Here is the link to the original dataset on Kaggle: https://www.kaggle.com/fedesoriano/stroke-prediction-dataset
 
 
 3. Questions asked/Narrative: 

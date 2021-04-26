@@ -1,0 +1,37 @@
+---
+title: "Final Team Report"
+author: "Felix Baez-Santiago, Carter Meseck, Ryan Herren, Austin Nebel and Chris Henderson"
+date: "4/27/2021"
+output: html_document
+---
+
+1. Dataset Background: 
+
+This dataset contains information for different factors that are often related to strokes. A stroke is a medical emergency where blood supply is suddenly cut off from the brain. Strokes are very dangerous as they are believed to cause around a tenth of all deaths in the United States. We used this dataset to answer different questions based on factors such as gender, age, smoking status and many more. Each row of the dataset provides relevant information to one of 500 patients. 
+
+1a. Dataset Variables:
+- 1: id: identifier for patient
+- 2: gender: "Male", "Female" or "Other"
+- 3: age: age of the patient in years
+- 4: hypertension: 0 if the patient doesn't have hypertension, 1 if the patient has hypertension
+- 5: heart_disease: 0 if the patient doesn't have any heart diseases, 1 if the patient has a heart disease
+- 6: ever_married: "No" or "Yes"
+- 7: work_type: "children", "Govt_jov", "Never_worked", "Private" or "Self-employed"
+- 8: Residence_type: "Rural" or "Urban"
+- 9: avg_glucose_level: average glucose level in blood
+- 10: bmi: body mass index
+- 11: smoking_status: "formerly smoked", "never smoked", "smokes" or "Unknown"*
+- 12: stroke: 1 if the patient had a stroke or 0 if not
+*Note: "Unknown" in smoking_status means that the information is unavailable for this patient
+
+2.How did we obtain the data?
+
+
+
+questions raised
+
+challenges faced and techniques used
+
+featured infographics to showcase your main findings
+
+your other findings and conclusion

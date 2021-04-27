@@ -70,13 +70,10 @@ table(strokes$smoking_status)
 ```{r}
 ## Find average age of people by smoke group.
 smoke <- data[data$smoking_status == "smokes" | data$smoking_status == "formerly smoked", ]
-smoke
 
 summary(smoke)
 
 noSmoke <- data[data$smoking_status == "never smoked", ]
-noSmoke
-
 
 summary(noSmoke)
 
@@ -84,12 +81,49 @@ summary(noSmoke)
 ## Average age of someone who has smoked or smoked in the past is 51.24
 ## Average age of someone who hasn't smoked is 46.74
 ## There is about an average increase of 2% in chance that someone who smoked will have had a stroke.
-
+## Almost double chance of someone to have heart disease that smokes vs non smoke
+## 40.6% more likely for a smoker to have a stroke vs non smoker.
 ```
 ```{r}
 ## Looking into female vs male to see if there are any discrepancies there.
+table(strokes$gender)
+## 120 Females have had a stroke and 89 Males have. Proportion is 1.35
+table(data$gender)
+## 2994 Females and 2115 Males in the dataset. Proportion is 1.42
+
+## Proportion of females to males is lower in people that have had a stroke, but not significant enough to extract any  meaning.
+
+male <- data[data$gender == "Male", ]
+female <- data[data$gender == "Female",]
+
+summary(male)
+table(male$ever_married)
+table(male$work_type)
+table(male$smoking_status)
+# 5% chance for Male to have a stroke
+# Avg male age for dataset is 42.5
+# Avg Male hypertension is 10.5%
+# Avg Male Heart disease 7.8%
+# Avg Male glucose level is 109
+# 56.4% Chance for Male to not have been married
+# 55.3% Chance for Male to work Private
+# 47.1% Chance for Male to never have smoked
+
+summary(female)
+table(female$ever_married)
+table(female$work_type)
+table(female$smoking_status)
+# 4.7% chance for Female to have a stroke
+# Avg Female age for dataset is 43.8
+# Avg Female hypertension is 9.2%
+# Avg Female Heart disease 3.8%
+# Avg Female glucose level is 104.1
+# 49.6% Chance for Female to not have been married
+# 58.6% Chance for Female to work Private
+# 57% Chance for Female to never have smoked
 
 
+# From this we can tell that in this dataset, females are much less likely to have heart disease, have been married, and have smoked.
 
 ```
 

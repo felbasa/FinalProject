@@ -231,6 +231,7 @@ head(data)</code></pre>
 ## 5          Rural            174.12   24    never smoked      1
 ## 6          Urban            186.21   29 formerly smoked      1</code></pre>
 <pre class="r"><code>## Finding Average Person vs Average Person who has had a stroke.
+newData &lt;- data[(data$bmi != &#39;N/A&#39;),]
 
 summary(data)</code></pre>
 <pre><code>##        id           gender               age         hypertension    
@@ -280,11 +281,31 @@ summary(data)</code></pre>
 ## Average Person has 106.15 Glucose level
 ## Average Person has 9.7% chance to have hypertension
 ## Average person is a female
-## Average pesron has never smoked or unknown
+## Average person has never smoked or unknown
 ## Average person has a 4.9% chance to have had a stroke.
 ## Average person lives in an urban residence
 ## Average person is privately employed
 ## Average person has been married
+
+sd(data$age)</code></pre>
+<pre><code>## [1] 22.61265</code></pre>
+<pre class="r"><code>sd(data$heart_disease)</code></pre>
+<pre><code>## [1] 0.226063</code></pre>
+<pre class="r"><code>sd(newData$bmi)</code></pre>
+<pre><code>## [1] 7.854067</code></pre>
+<pre class="r"><code>sd(data$avg_glucose_level)</code></pre>
+<pre><code>## [1] 45.28356</code></pre>
+<pre class="r"><code>sd(data$hypertension)</code></pre>
+<pre><code>## [1] 0.2966067</code></pre>
+<pre class="r"><code>sd(data$stroke)</code></pre>
+<pre><code>## [1] 0.2153199</code></pre>
+<pre class="r"><code>## Standard Deviation:
+# Age: 22.61
+# Heart Disease: .226
+# BMI: 7.85
+# Glucose: 45.28
+# Hypertension: 0.30
+# Stroke: 0.22
 
 strokes &lt;- data[which(data$stroke == 1 &amp; data$bmi != &#39;N/A&#39;), ]
 
@@ -340,61 +361,122 @@ summary(strokes)</code></pre>
 ## Average Stroker has a 100% chance to have had a stroke.
 ## Average Stroker lives in an urban residence, however the difference is only 9 so I wouldn&#39;t say this is statistically significant.
 ## Average Stroker is privately employed
-## Average Stroker has been married</code></pre>
+## Average Stroker has been married
+
+sd(strokes$age)</code></pre>
+<pre><code>## [1] 12.40285</code></pre>
+<pre class="r"><code>sd(strokes$heart_disease)</code></pre>
+<pre><code>## [1] 0.3943379</code></pre>
+<pre class="r"><code>sd(strokes$bmi)</code></pre>
+<pre><code>## [1] 6.329452</code></pre>
+<pre class="r"><code>sd(strokes$avg_glucose_level)</code></pre>
+<pre><code>## [1] 62.46205</code></pre>
+<pre class="r"><code>sd(strokes$hypertension)</code></pre>
+<pre><code>## [1] 0.4534861</code></pre>
+<pre class="r"><code>sd(strokes$stroke)</code></pre>
+<pre><code>## [1] 0</code></pre>
+<pre class="r"><code>## Standard Deviation:
+# Age: 12.4
+# Heart Disease: 0.39
+# BMI: 6.33
+# Glucose: 62.46
+# Hypertension: 0.45
+
+# For Strokers, the Standard Deviation for age seems to be much lower. It would seem then, that strokers are all around a close age.</code></pre>
 <pre class="r"><code>## Find average age of people by smoke group.
-smoke &lt;- data[data$smoking_status == &quot;smokes&quot; | data$smoking_status == &quot;formerly smoked&quot;, ]
+smoke &lt;- newData[newData$smoking_status == &quot;smokes&quot; | newData$smoking_status == &quot;formerly smoked&quot;, ]
 
 summary(smoke)</code></pre>
-<pre><code>##        id           gender               age         hypertension   
-##  Min.   :   67   Length:1674        Min.   :10.00   Min.   :0.0000  
-##  1st Qu.:17866   Class :character   1st Qu.:38.00   1st Qu.:0.0000  
-##  Median :37086   Mode  :character   Median :52.00   Median :0.0000  
-##  Mean   :36732                      Mean   :51.24   Mean   :0.1278  
-##  3rd Qu.:55208                      3rd Qu.:65.00   3rd Qu.:0.0000  
-##  Max.   :72915                      Max.   :82.00   Max.   :1.0000  
+<pre><code>##        id           gender               age         hypertension  
+##  Min.   :  187   Length:1574        Min.   :10.00   Min.   :0.000  
+##  1st Qu.:19477   Class :character   1st Qu.:38.00   1st Qu.:0.000  
+##  Median :38057   Mode  :character   Median :52.00   Median :0.000  
+##  Mean   :37610                      Mean   :51.21   Mean   :0.122  
+##  3rd Qu.:56106                      3rd Qu.:65.00   3rd Qu.:0.000  
+##  Max.   :72915                      Max.   :82.00   Max.   :1.000  
 ##  heart_disease     ever_married        work_type         Residence_type    
-##  Min.   :0.00000   Length:1674        Length:1674        Length:1674       
+##  Min.   :0.00000   Length:1574        Length:1574        Length:1574       
 ##  1st Qu.:0.00000   Class :character   Class :character   Class :character  
 ##  Median :0.00000   Mode  :character   Mode  :character   Mode  :character  
-##  Mean   :0.08244                                                           
+##  Mean   :0.07942                                                           
 ##  3rd Qu.:0.00000                                                           
 ##  Max.   :1.00000                                                           
 ##  avg_glucose_level     bmi            smoking_status         stroke       
-##  Min.   : 55.27    Length:1674        Length:1674        Min.   :0.00000  
-##  1st Qu.: 77.69    Class :character   Class :character   1st Qu.:0.00000  
-##  Median : 93.08    Mode  :character   Mode  :character   Median :0.00000  
-##  Mean   :110.59                                          Mean   :0.06691  
-##  3rd Qu.:116.83                                          3rd Qu.:0.00000  
+##  Min.   : 55.27    Length:1574        Length:1574        Min.   :0.00000  
+##  1st Qu.: 77.50    Class :character   Class :character   1st Qu.:0.00000  
+##  Median : 92.89    Mode  :character   Mode  :character   Median :0.00000  
+##  Mean   :109.72                                          Mean   :0.06099  
+##  3rd Qu.:116.52                                          3rd Qu.:0.00000  
 ##  Max.   :271.74                                          Max.   :1.00000</code></pre>
-<pre class="r"><code>noSmoke &lt;- data[data$smoking_status == &quot;never smoked&quot;, ]
+<pre class="r"><code>noSmoke &lt;- newData[newData$smoking_status == &quot;never smoked&quot;, ]
 
 summary(noSmoke)</code></pre>
 <pre><code>##        id           gender               age         hypertension   
-##  Min.   :   84   Length:1892        Min.   :10.00   Min.   :0.0000  
-##  1st Qu.:18256   Class :character   1st Qu.:31.00   1st Qu.:0.0000  
-##  Median :37740   Mode  :character   Median :47.00   Median :0.0000  
-##  Mean   :36833                      Mean   :46.74   Mean   :0.1226  
-##  3rd Qu.:54890                      3rd Qu.:62.00   3rd Qu.:0.0000  
+##  Min.   :   84   Length:1852        Min.   :10.00   Min.   :0.0000  
+##  1st Qu.:18874   Class :character   1st Qu.:31.00   1st Qu.:0.0000  
+##  Median :38074   Mode  :character   Median :46.00   Median :0.0000  
+##  Mean   :37109                      Mean   :46.47   Mean   :0.1166  
+##  3rd Qu.:55182                      3rd Qu.:61.25   3rd Qu.:0.0000  
 ##  Max.   :72861                      Max.   :82.00   Max.   :1.0000  
 ##  heart_disease     ever_married        work_type         Residence_type    
-##  Min.   :0.00000   Length:1892        Length:1892        Length:1892       
+##  Min.   :0.00000   Length:1852        Length:1852        Length:1852       
 ##  1st Qu.:0.00000   Class :character   Class :character   Class :character  
 ##  Median :0.00000   Mode  :character   Mode  :character   Mode  :character  
-##  Mean   :0.04757                                                           
+##  Mean   :0.04374                                                           
 ##  3rd Qu.:0.00000                                                           
 ##  Max.   :1.00000                                                           
 ##  avg_glucose_level     bmi            smoking_status         stroke       
-##  Min.   : 55.12    Length:1892        Length:1892        Min.   :0.00000  
-##  1st Qu.: 77.11    Class :character   Class :character   1st Qu.:0.00000  
-##  Median : 92.22    Mode  :character   Mode  :character   Median :0.00000  
-##  Mean   :107.56                                          Mean   :0.04757  
-##  3rd Qu.:116.16                                          3rd Qu.:0.00000  
+##  Min.   : 55.12    Length:1852        Length:1852        Min.   :0.00000  
+##  1st Qu.: 76.99    Class :character   Class :character   1st Qu.:0.00000  
+##  Median : 92.14    Mode  :character   Mode  :character   Median :0.00000  
+##  Mean   :107.14                                          Mean   :0.04536  
+##  3rd Qu.:115.98                                          3rd Qu.:0.00000  
 ##  Max.   :267.60                                          Max.   :1.00000</code></pre>
 <pre class="r"><code>## Average age of someone who has smoked or smoked in the past is 51.24
 ## Average age of someone who hasn&#39;t smoked is 46.74
 ## There is about an average increase of 2% in chance that someone who smoked will have had a stroke.
 ## Almost double chance of someone to have heart disease that smokes vs non smoke
-## 40.6% more likely for a smoker to have a stroke vs non smoker.</code></pre>
+## 40.6% more likely for a smoker to have a stroke vs non smoker.
+
+sd(smoke$age)</code></pre>
+<pre><code>## [1] 17.44854</code></pre>
+<pre class="r"><code>sd(smoke$heart_disease)</code></pre>
+<pre><code>## [1] 0.2704721</code></pre>
+<pre class="r"><code>sd(smoke$bmi)</code></pre>
+<pre><code>## [1] 7.079383</code></pre>
+<pre class="r"><code>sd(smoke$avg_glucose_level)</code></pre>
+<pre><code>## [1] 49.23335</code></pre>
+<pre class="r"><code>sd(smoke$hypertension)</code></pre>
+<pre><code>## [1] 0.3273693</code></pre>
+<pre class="r"><code>sd(smoke$stroke)</code></pre>
+<pre><code>## [1] 0.2393901</code></pre>
+<pre class="r"><code>## Standard Deviation:
+# Age: 17.51
+# Heart Disease: 0.28
+# BMI: 7.08
+# Glucose: 49.23
+# Hypertension: 0.33
+# Stroke: 0.24
+
+sd(noSmoke$age)</code></pre>
+<pre><code>## [1] 19.71073</code></pre>
+<pre class="r"><code>sd(noSmoke$heart_disease)</code></pre>
+<pre><code>## [1] 0.2045635</code></pre>
+<pre class="r"><code>sd(noSmoke$bmi)</code></pre>
+<pre><code>## [1] 7.463217</code></pre>
+<pre class="r"><code>sd(noSmoke$avg_glucose_level)</code></pre>
+<pre><code>## [1] 46.34407</code></pre>
+<pre class="r"><code>sd(noSmoke$hypertension)</code></pre>
+<pre><code>## [1] 0.3210664</code></pre>
+<pre class="r"><code>sd(noSmoke$stroke)</code></pre>
+<pre><code>## [1] 0.2081407</code></pre>
+<pre class="r"><code>## Standard Deviation:
+# Age: 19.71
+# Heart Disease: 0.20
+# BMI: 7.46
+# Glucose: 46.34
+# Hypertension: 0.32
+# Stroke: 0.21</code></pre>
 <pre class="r"><code>## Looking into female vs male to see if there are any discrepancies there.
 table(strokes$gender)</code></pre>
 <pre><code>## 
@@ -409,43 +491,43 @@ table(data$gender)</code></pre>
 
 ## Proportion of females to males is lower in people that have had a stroke, but not significant enough to extract any  meaning.
 
-male &lt;- data[data$gender == &quot;Male&quot;, ]
-female &lt;- data[data$gender == &quot;Female&quot;,]
+male &lt;- newData[newData$gender == &quot;Male&quot;, ]
+female &lt;- newData[newData$gender == &quot;Female&quot;,]
 
 summary(male)</code></pre>
-<pre><code>##        id           gender               age         hypertension  
-##  Min.   :   84   Length:2115        Min.   : 0.08   Min.   :0.000  
-##  1st Qu.:17696   Class :character   1st Qu.:22.00   1st Qu.:0.000  
-##  Median :36666   Mode  :character   Median :46.00   Median :0.000  
-##  Mean   :36563                      Mean   :42.48   Mean   :0.105  
-##  3rd Qu.:55195                      3rd Qu.:61.00   3rd Qu.:0.000  
-##  Max.   :72882                      Max.   :82.00   Max.   :1.000  
+<pre><code>##        id           gender               age         hypertension    
+##  Min.   :   84   Length:2011        Min.   : 0.08   Min.   :0.00000  
+##  1st Qu.:18629   Class :character   1st Qu.:21.00   1st Qu.:0.00000  
+##  Median :37446   Mode  :character   Median :45.00   Median :0.00000  
+##  Mean   :37224                      Mean   :42.05   Mean   :0.09945  
+##  3rd Qu.:55656                      3rd Qu.:60.50   3rd Qu.:0.00000  
+##  Max.   :72882                      Max.   :82.00   Max.   :1.00000  
 ##  heart_disease     ever_married        work_type         Residence_type    
-##  Min.   :0.00000   Length:2115        Length:2115        Length:2115       
+##  Min.   :0.00000   Length:2011        Length:2011        Length:2011       
 ##  1st Qu.:0.00000   Class :character   Class :character   Class :character  
 ##  Median :0.00000   Mode  :character   Mode  :character   Mode  :character  
-##  Mean   :0.07707                                                           
+##  Mean   :0.07111                                                           
 ##  3rd Qu.:0.00000                                                           
 ##  Max.   :1.00000                                                           
 ##  avg_glucose_level     bmi            smoking_status         stroke       
-##  Min.   : 55.22    Length:2115        Length:2115        Min.   :0.00000  
-##  1st Qu.: 78.37    Class :character   Class :character   1st Qu.:0.00000  
-##  Median : 93.55    Mode  :character   Mode  :character   Median :0.00000  
-##  Mean   :109.09                                          Mean   :0.05106  
-##  3rd Qu.:117.73                                          3rd Qu.:0.00000  
+##  Min.   : 55.22    Length:2011        Length:2011        Min.   :0.00000  
+##  1st Qu.: 78.27    Class :character   Class :character   1st Qu.:0.00000  
+##  Median : 93.51    Mode  :character   Mode  :character   Median :0.00000  
+##  Mean   :108.13                                          Mean   :0.04426  
+##  3rd Qu.:116.57                                          3rd Qu.:0.00000  
 ##  Max.   :271.74                                          Max.   :1.00000</code></pre>
 <pre class="r"><code>table(male$ever_married)</code></pre>
 <pre><code>## 
 ##   No  Yes 
-##  763 1352</code></pre>
+##  740 1271</code></pre>
 <pre class="r"><code>table(male$work_type)</code></pre>
 <pre><code>## 
 ##      children      Govt_job  Never_worked       Private Self-employed 
-##           361           258            11          1170           315</code></pre>
+##           351           246            11          1105           298</code></pre>
 <pre class="r"><code>table(male$smoking_status)</code></pre>
 <pre><code>## 
 ## formerly smoked    never smoked          smokes         Unknown 
-##             407             663             337             708</code></pre>
+##             378             649             312             672</code></pre>
 <pre class="r"><code># 5% chance for Male to have a stroke
 # Avg male age for dataset is 42.5
 # Avg Male hypertension is 10.5%
@@ -455,40 +537,61 @@ summary(male)</code></pre>
 # 55.3% Chance for Male to work Private
 # 47.1% Chance for Male to never have smoked
 
+sd(male$age)</code></pre>
+<pre><code>## [1] 23.47745</code></pre>
+<pre class="r"><code>sd(male$heart_disease)</code></pre>
+<pre><code>## [1] 0.2570706</code></pre>
+<pre class="r"><code>sd(male$bmi)</code></pre>
+<pre><code>## [1] 7.464493</code></pre>
+<pre class="r"><code>sd(male$avg_glucose_level)</code></pre>
+<pre><code>## [1] 46.49942</code></pre>
+<pre class="r"><code>sd(male$hypertension)</code></pre>
+<pre><code>## [1] 0.2993437</code></pre>
+<pre class="r"><code>sd(male$stroke)</code></pre>
+<pre><code>## [1] 0.2057158</code></pre>
+<pre class="r"><code>## Standard Deviation:
+# Age: 23.48
+# Heart Disease: 0.26
+# BMI: 7.46
+# Glucose: 46.50
+# Hypertension: 0.30
+# Stroke: 0.21
+
+
 summary(female)</code></pre>
 <pre><code>##        id           gender               age         hypertension    
-##  Min.   :   67   Length:2994        Min.   : 0.08   Min.   :0.00000  
-##  1st Qu.:17797   Class :character   1st Qu.:27.00   1st Qu.:0.00000  
-##  Median :37093   Mode  :character   Median :44.00   Median :0.00000  
-##  Mean   :36480                      Mean   :43.76   Mean   :0.09218  
-##  3rd Qu.:54310                      3rd Qu.:61.00   3rd Qu.:0.00000  
+##  Min.   :   77   Length:2897        Min.   : 0.08   Min.   :0.00000  
+##  1st Qu.:18605   Class :character   1st Qu.:26.00   1st Qu.:0.00000  
+##  Median :37651   Mode  :character   Median :44.00   Median :0.00000  
+##  Mean   :36947                      Mean   :43.44   Mean   :0.08664  
+##  3rd Qu.:54782                      3rd Qu.:60.00   3rd Qu.:0.00000  
 ##  Max.   :72940                      Max.   :82.00   Max.   :1.00000  
 ##  heart_disease     ever_married        work_type         Residence_type    
-##  Min.   :0.00000   Length:2994        Length:2994        Length:2994       
+##  Min.   :0.00000   Length:2897        Length:2897        Length:2897       
 ##  1st Qu.:0.00000   Class :character   Class :character   Class :character  
 ##  Median :0.00000   Mode  :character   Mode  :character   Mode  :character  
-##  Mean   :0.03774                                                           
+##  Mean   :0.03452                                                           
 ##  3rd Qu.:0.00000                                                           
 ##  Max.   :1.00000                                                           
 ##  avg_glucose_level     bmi            smoking_status         stroke       
-##  Min.   : 55.12    Length:2994        Length:2994        Min.   :0.00000  
-##  1st Qu.: 76.43    Class :character   Class :character   1st Qu.:0.00000  
-##  Median : 90.75    Mode  :character   Mode  :character   Median :0.00000  
-##  Mean   :104.06                                          Mean   :0.04709  
-##  3rd Qu.:112.18                                          3rd Qu.:0.00000  
+##  Min.   : 55.12    Length:2897        Length:2897        Min.   :0.00000  
+##  1st Qu.: 76.30    Class :character   Class :character   1st Qu.:0.00000  
+##  Median : 90.52    Mode  :character   Mode  :character   Median :0.00000  
+##  Mean   :103.33                                          Mean   :0.04142  
+##  3rd Qu.:112.02                                          3rd Qu.:0.00000  
 ##  Max.   :267.76                                          Max.   :1.00000</code></pre>
 <pre class="r"><code>table(female$ever_married)</code></pre>
 <pre><code>## 
 ##   No  Yes 
-##  993 2001</code></pre>
+##  964 1933</code></pre>
 <pre class="r"><code>table(female$work_type)</code></pre>
 <pre><code>## 
 ##      children      Govt_job  Never_worked       Private Self-employed 
-##           326           399            11          1754           504</code></pre>
+##           320           384            11          1705           477</code></pre>
 <pre class="r"><code>table(female$smoking_status)</code></pre>
 <pre><code>## 
 ## formerly smoked    never smoked          smokes         Unknown 
-##             477            1229             452             836</code></pre>
+##             458            1203             425             811</code></pre>
 <pre class="r"><code># 4.7% chance for Female to have a stroke
 # Avg Female age for dataset is 43.8
 # Avg Female hypertension is 9.2%
@@ -497,6 +600,26 @@ summary(female)</code></pre>
 # 49.6% Chance for Female to not have been married
 # 58.6% Chance for Female to work Private
 # 57% Chance for Female to never have smoked
+
+sd(female$age)</code></pre>
+<pre><code>## [1] 21.87985</code></pre>
+<pre class="r"><code>sd(female$heart_disease)</code></pre>
+<pre><code>## [1] 0.1825882</code></pre>
+<pre class="r"><code>sd(female$bmi)</code></pre>
+<pre><code>## [1] 8.110783</code></pre>
+<pre class="r"><code>sd(female$avg_glucose_level)</code></pre>
+<pre><code>## [1] 42.82504</code></pre>
+<pre class="r"><code>sd(female$hypertension)</code></pre>
+<pre><code>## [1] 0.2813573</code></pre>
+<pre class="r"><code>sd(female$stroke)</code></pre>
+<pre><code>## [1] 0.199299</code></pre>
+<pre class="r"><code>## Standard Deviation:
+# Age: 21.88
+# Heart Disease: 0.18
+# BMI: 8.11
+# Glucose:
+# Hypertension: 0.28
+# Stroke: 0.20
 
 
 # From this we can tell that in this dataset, females are much less likely to have heart disease, have been married, and have smoked.</code></pre>

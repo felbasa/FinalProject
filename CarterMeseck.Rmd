@@ -15,7 +15,7 @@ library(dplyr)
 library(devtools)
 ```
 ```{r}
-data <- read.csv("/Users/kungf/OneDrive/Documents/FinalProject/healthcare-dataset-stroke-data.csv")
+data <- read.csv("healthcare-dataset-stroke-data.csv")
 head(data)
 
 
@@ -67,7 +67,13 @@ table(strokes$smoking_status)
 
 ```
 
+
+### Average age of each smoking status
+
+
 ```{r}
+
+
 ## Find average age of people by smoke group.
 smoke <- data[data$smoking_status == "smokes" | data$smoking_status == "formerly smoked", ]
 
@@ -83,6 +89,13 @@ summary(noSmoke)
 ## There is about an average increase of 2% in chance that someone who smoked will have had a stroke.
 ## Almost double chance of someone to have heart disease that smokes vs non smoke
 ## 40.6% more likely for a smoker to have a stroke vs non smoker.
+
+data %>% group_by(smoking_status) %>%
+  mutate(age_avg = mean(age)) %>%
+  ggplot(aes(x = `smoking_status`, y=`age_avg`, fill = `smoking_status`)) + geom_bar(stat="identity", position = "dodge") + 
+     ggtitle("Percentage of Strokes in Relation to Smoking Status")
+
+
 ```
 ```{r}
 ## Looking into female vs male to see if there are any discrepancies there.
@@ -122,10 +135,31 @@ table(female$smoking_status)
 # 58.6% Chance for Female to work Private
 # 57% Chance for Female to never have smoked
 
-
 # From this we can tell that in this dataset, females are much less likely to have heart disease, have been married, and have smoked.
 
 ```
+```{r}
+
+data %>% filter(gender != "Other") %>% group_by(`gender`,smoking_status,heart_disease) %>% 
+  mutate(stroke_avg = sum(stroke)/n()) %>%
+  
+  ggplot(aes(x = `gender`, y=`stroke_avg`, fill = `smoking_status`)) + geom_bar(stat="identity", position = "dodge") + 
+  
+    facet_grid(rows = (data %>% filter(gender != "Other"))$heart_disease, labeller = as_labeller(c("0"="Heart Disease", "1"="No Heart Disease"))) + 
+    
+    ggtitle("Percentage of Strokes in Relation to Gender, Smoking Status, and Heart Disease") + 
+    xlab("Gender") + ylab("Stroke Risk")  +
+    scale_y_continuous(labels = scales::percent) +
+    scale_fill_discrete(name="Smoking Status", labels=c("Former Smoker", "Never Smoked", "Smokes", "Unknown"))
+
+```
+
+
+
+
+
+
+
 
 
 

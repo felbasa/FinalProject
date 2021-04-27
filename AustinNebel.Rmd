@@ -1,0 +1,57 @@
+---
+title: "AustinNebel"
+author: "Austin Nebel"
+date: "4/21/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggplot2)
+library(readr)
+library(readxl)
+library(dplyr)
+library(devtools)
+```
+
+
+
+```{r}
+data <- read.csv("healthcare-dataset-stroke-data.csv")
+summary(data)
+```
+
+
+### How does working environment and residence type affect stroke chances?
+
+```{r}
+data %>% group_by(work_type, Residence_type) %>%
+  mutate(stroke_avg = sum(stroke)/n()) %>%
+  ggplot(aes(x = `work_type`, y=`stroke_avg`, fill = `Residence_type`)) + geom_bar(stat="identity", position = "dodge") + 
+  xlab("Working Environment") + ylab("Stroke Risk")  + labs(fill = "Residence Type") + 
+  scale_x_discrete(labels=c("children" = "Children", "Govt_job" = "Gov. Job", "Never_worked" = "Never Worked", "Private" = "Private", "Self-employed" = "Self-Employed")) +
+  scale_y_continuous(labels = scales::percent) +
+  ggtitle("Percentage of Strokes in Relation to Working Environment and Residence")
+```
+
+The above bar graph suggests that working environment plays a large role in the chance of a stroke, and even residence type can be a small factor. Those living in urban households consistently had slightly more strokes that those in rural households. What is more compelling is that the working environment significantly changed the amount of strokes; those that are self-employed had nearly a 1 in 10 chance of having a stroke. On the contrary, those that stayed home to raise children had less than 0.5% chance of developing a stroke in their lifetime. 
+
+Notice that those that never worked do not even appear on this graph; this is most likely because the data set had a very small number of people that never worked and is most likely not a fully accurate representation for that category.
+
+
+### Are work type and age related?
+
+To further investigate the relationship between work type and stroke risk, we can explore the age groups of each work type and compare those results with those found in the age to stroke risk answered previously.
+
+```{r}
+data %>% group_by(work_type) %>%
+  ggplot(aes(x = `work_type`, y=`age`, fill = `work_type`)) + geom_boxplot() + 
+  xlab("Working Environment") + ylab("Age")  + theme(legend.position = "none") + 
+  scale_x_discrete(labels=c("children" = "Children", "Govt_job" = "Gov. Job", "Never_worked" = "Never Worked", "Private" = "Private", "Self-employed" = "Self-Employed")) +
+  ggtitle("Age Groups of Each Working Environment")
+```
+
+From this box plot, the previous investigation makes sense. Those that are self employed had the highest chance of having a stroke and from this plot they seem to also have the highest age group. Also, those with the lowest chance of having a stroke (besides those that were never employed) are in the lowest age group. This suggests that working environment may not have a direct impact on stroke risk, but rather age has an impact on working environment.
+
+

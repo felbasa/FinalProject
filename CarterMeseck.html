@@ -229,6 +229,7 @@ head(data)</code></pre>
 ## 5          Rural            174.12   24    never smoked      1
 ## 6          Urban            186.21   29 formerly smoked      1</code></pre>
 <pre class="r"><code>## Finding Average Person vs Average Person who has had a stroke.
+newData &lt;- data[(data$bmi != &#39;N/A&#39;),]
 
 summary(data)</code></pre>
 <pre><code>##        id           gender               age         hypertension    
@@ -278,11 +279,31 @@ summary(data)</code></pre>
 ## Average Person has 106.15 Glucose level
 ## Average Person has 9.7% chance to have hypertension
 ## Average person is a female
-## Average pesron has never smoked or unknown
+## Average person has never smoked or unknown
 ## Average person has a 4.9% chance to have had a stroke.
 ## Average person lives in an urban residence
 ## Average person is privately employed
 ## Average person has been married
+
+sd(data$age)</code></pre>
+<pre><code>## [1] 22.61265</code></pre>
+<pre class="r"><code>sd(data$heart_disease)</code></pre>
+<pre><code>## [1] 0.226063</code></pre>
+<pre class="r"><code>sd(newData$bmi)</code></pre>
+<pre><code>## [1] 7.854067</code></pre>
+<pre class="r"><code>sd(data$avg_glucose_level)</code></pre>
+<pre><code>## [1] 45.28356</code></pre>
+<pre class="r"><code>sd(data$hypertension)</code></pre>
+<pre><code>## [1] 0.2966067</code></pre>
+<pre class="r"><code>sd(data$stroke)</code></pre>
+<pre><code>## [1] 0.2153199</code></pre>
+<pre class="r"><code>## Standard Deviation:
+# Age: 22.61
+# Heart Disease: .226
+# BMI: 7.85
+# Glucose: 45.28
+# Hypertension: 0.30
+# Stroke: 0.22
 
 strokes &lt;- data[which(data$stroke == 1 &amp; data$bmi != &#39;N/A&#39;), ]
 
@@ -338,57 +359,82 @@ summary(strokes)</code></pre>
 ## Average Stroker has a 100% chance to have had a stroke.
 ## Average Stroker lives in an urban residence, however the difference is only 9 so I wouldn&#39;t say this is statistically significant.
 ## Average Stroker is privately employed
+<<<<<<< HEAD
 ## Average Stroker has been married</code></pre>
 <div id="average-age-of-each-smoking-status" class="section level3">
 <h3>Average age of each smoking status</h3>
+=======
+## Average Stroker has been married
+
+sd(strokes$age)</code></pre>
+<pre><code>## [1] 12.40285</code></pre>
+<pre class="r"><code>sd(strokes$heart_disease)</code></pre>
+<pre><code>## [1] 0.3943379</code></pre>
+<pre class="r"><code>sd(strokes$bmi)</code></pre>
+<pre><code>## [1] 6.329452</code></pre>
+<pre class="r"><code>sd(strokes$avg_glucose_level)</code></pre>
+<pre><code>## [1] 62.46205</code></pre>
+<pre class="r"><code>sd(strokes$hypertension)</code></pre>
+<pre><code>## [1] 0.4534861</code></pre>
+<pre class="r"><code>sd(strokes$stroke)</code></pre>
+<pre><code>## [1] 0</code></pre>
+<pre class="r"><code>## Standard Deviation:
+# Age: 12.4
+# Heart Disease: 0.39
+# BMI: 6.33
+# Glucose: 62.46
+# Hypertension: 0.45
+
+# For Strokers, the Standard Deviation for age seems to be much lower. It would seem then, that strokers are all around a close age.</code></pre>
+>>>>>>> 3ccb24df17af9b6ab6b5bd7cbe65f1bb44d8d724
 <pre class="r"><code>## Find average age of people by smoke group.
-smoke &lt;- data[data$smoking_status == &quot;smokes&quot; | data$smoking_status == &quot;formerly smoked&quot;, ]
+smoke &lt;- newData[newData$smoking_status == &quot;smokes&quot; | newData$smoking_status == &quot;formerly smoked&quot;, ]
 
 summary(smoke)</code></pre>
-<pre><code>##        id           gender               age         hypertension   
-##  Min.   :   67   Length:1674        Min.   :10.00   Min.   :0.0000  
-##  1st Qu.:17866   Class :character   1st Qu.:38.00   1st Qu.:0.0000  
-##  Median :37086   Mode  :character   Median :52.00   Median :0.0000  
-##  Mean   :36732                      Mean   :51.24   Mean   :0.1278  
-##  3rd Qu.:55208                      3rd Qu.:65.00   3rd Qu.:0.0000  
-##  Max.   :72915                      Max.   :82.00   Max.   :1.0000  
+<pre><code>##        id           gender               age         hypertension  
+##  Min.   :  187   Length:1574        Min.   :10.00   Min.   :0.000  
+##  1st Qu.:19477   Class :character   1st Qu.:38.00   1st Qu.:0.000  
+##  Median :38057   Mode  :character   Median :52.00   Median :0.000  
+##  Mean   :37610                      Mean   :51.21   Mean   :0.122  
+##  3rd Qu.:56106                      3rd Qu.:65.00   3rd Qu.:0.000  
+##  Max.   :72915                      Max.   :82.00   Max.   :1.000  
 ##  heart_disease     ever_married        work_type         Residence_type    
-##  Min.   :0.00000   Length:1674        Length:1674        Length:1674       
+##  Min.   :0.00000   Length:1574        Length:1574        Length:1574       
 ##  1st Qu.:0.00000   Class :character   Class :character   Class :character  
 ##  Median :0.00000   Mode  :character   Mode  :character   Mode  :character  
-##  Mean   :0.08244                                                           
+##  Mean   :0.07942                                                           
 ##  3rd Qu.:0.00000                                                           
 ##  Max.   :1.00000                                                           
 ##  avg_glucose_level     bmi            smoking_status         stroke       
-##  Min.   : 55.27    Length:1674        Length:1674        Min.   :0.00000  
-##  1st Qu.: 77.69    Class :character   Class :character   1st Qu.:0.00000  
-##  Median : 93.08    Mode  :character   Mode  :character   Median :0.00000  
-##  Mean   :110.59                                          Mean   :0.06691  
-##  3rd Qu.:116.83                                          3rd Qu.:0.00000  
+##  Min.   : 55.27    Length:1574        Length:1574        Min.   :0.00000  
+##  1st Qu.: 77.50    Class :character   Class :character   1st Qu.:0.00000  
+##  Median : 92.89    Mode  :character   Mode  :character   Median :0.00000  
+##  Mean   :109.72                                          Mean   :0.06099  
+##  3rd Qu.:116.52                                          3rd Qu.:0.00000  
 ##  Max.   :271.74                                          Max.   :1.00000</code></pre>
-<pre class="r"><code>noSmoke &lt;- data[data$smoking_status == &quot;never smoked&quot;, ]
+<pre class="r"><code>noSmoke &lt;- newData[newData$smoking_status == &quot;never smoked&quot;, ]
 
 summary(noSmoke)</code></pre>
 <pre><code>##        id           gender               age         hypertension   
-##  Min.   :   84   Length:1892        Min.   :10.00   Min.   :0.0000  
-##  1st Qu.:18256   Class :character   1st Qu.:31.00   1st Qu.:0.0000  
-##  Median :37740   Mode  :character   Median :47.00   Median :0.0000  
-##  Mean   :36833                      Mean   :46.74   Mean   :0.1226  
-##  3rd Qu.:54890                      3rd Qu.:62.00   3rd Qu.:0.0000  
+##  Min.   :   84   Length:1852        Min.   :10.00   Min.   :0.0000  
+##  1st Qu.:18874   Class :character   1st Qu.:31.00   1st Qu.:0.0000  
+##  Median :38074   Mode  :character   Median :46.00   Median :0.0000  
+##  Mean   :37109                      Mean   :46.47   Mean   :0.1166  
+##  3rd Qu.:55182                      3rd Qu.:61.25   3rd Qu.:0.0000  
 ##  Max.   :72861                      Max.   :82.00   Max.   :1.0000  
 ##  heart_disease     ever_married        work_type         Residence_type    
-##  Min.   :0.00000   Length:1892        Length:1892        Length:1892       
+##  Min.   :0.00000   Length:1852        Length:1852        Length:1852       
 ##  1st Qu.:0.00000   Class :character   Class :character   Class :character  
 ##  Median :0.00000   Mode  :character   Mode  :character   Mode  :character  
-##  Mean   :0.04757                                                           
+##  Mean   :0.04374                                                           
 ##  3rd Qu.:0.00000                                                           
 ##  Max.   :1.00000                                                           
 ##  avg_glucose_level     bmi            smoking_status         stroke       
-##  Min.   : 55.12    Length:1892        Length:1892        Min.   :0.00000  
-##  1st Qu.: 77.11    Class :character   Class :character   1st Qu.:0.00000  
-##  Median : 92.22    Mode  :character   Mode  :character   Median :0.00000  
-##  Mean   :107.56                                          Mean   :0.04757  
-##  3rd Qu.:116.16                                          3rd Qu.:0.00000  
+##  Min.   : 55.12    Length:1852        Length:1852        Min.   :0.00000  
+##  1st Qu.: 76.99    Class :character   Class :character   1st Qu.:0.00000  
+##  Median : 92.14    Mode  :character   Mode  :character   Median :0.00000  
+##  Mean   :107.14                                          Mean   :0.04536  
+##  3rd Qu.:115.98                                          3rd Qu.:0.00000  
 ##  Max.   :267.60                                          Max.   :1.00000</code></pre>
 <pre class="r"><code>## Average age of someone who has smoked or smoked in the past is 51.24
 ## Average age of someone who hasn&#39;t smoked is 46.74
@@ -396,11 +442,53 @@ summary(noSmoke)</code></pre>
 ## Almost double chance of someone to have heart disease that smokes vs non smoke
 ## 40.6% more likely for a smoker to have a stroke vs non smoker.
 
+<<<<<<< HEAD
 data %&gt;% group_by(smoking_status) %&gt;%
   mutate(age_avg = mean(age)) %&gt;%
   ggplot(aes(x = `smoking_status`, y=`age_avg`, fill = `smoking_status`)) + geom_bar(stat=&quot;identity&quot;, position = &quot;dodge&quot;) + 
      ggtitle(&quot;Percentage of Strokes in Relation to Smoking Status&quot;)</code></pre>
 <p><img src="data:image/png;base64,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" width="672" /></p>
+=======
+sd(smoke$age)</code></pre>
+<pre><code>## [1] 17.44854</code></pre>
+<pre class="r"><code>sd(smoke$heart_disease)</code></pre>
+<pre><code>## [1] 0.2704721</code></pre>
+<pre class="r"><code>sd(smoke$bmi)</code></pre>
+<pre><code>## [1] 7.079383</code></pre>
+<pre class="r"><code>sd(smoke$avg_glucose_level)</code></pre>
+<pre><code>## [1] 49.23335</code></pre>
+<pre class="r"><code>sd(smoke$hypertension)</code></pre>
+<pre><code>## [1] 0.3273693</code></pre>
+<pre class="r"><code>sd(smoke$stroke)</code></pre>
+<pre><code>## [1] 0.2393901</code></pre>
+<pre class="r"><code>## Standard Deviation:
+# Age: 17.51
+# Heart Disease: 0.28
+# BMI: 7.08
+# Glucose: 49.23
+# Hypertension: 0.33
+# Stroke: 0.24
+
+sd(noSmoke$age)</code></pre>
+<pre><code>## [1] 19.71073</code></pre>
+<pre class="r"><code>sd(noSmoke$heart_disease)</code></pre>
+<pre><code>## [1] 0.2045635</code></pre>
+<pre class="r"><code>sd(noSmoke$bmi)</code></pre>
+<pre><code>## [1] 7.463217</code></pre>
+<pre class="r"><code>sd(noSmoke$avg_glucose_level)</code></pre>
+<pre><code>## [1] 46.34407</code></pre>
+<pre class="r"><code>sd(noSmoke$hypertension)</code></pre>
+<pre><code>## [1] 0.3210664</code></pre>
+<pre class="r"><code>sd(noSmoke$stroke)</code></pre>
+<pre><code>## [1] 0.2081407</code></pre>
+<pre class="r"><code>## Standard Deviation:
+# Age: 19.71
+# Heart Disease: 0.20
+# BMI: 7.46
+# Glucose: 46.34
+# Hypertension: 0.32
+# Stroke: 0.21</code></pre>
+>>>>>>> 3ccb24df17af9b6ab6b5bd7cbe65f1bb44d8d724
 <pre class="r"><code>## Looking into female vs male to see if there are any discrepancies there.
 table(strokes$gender)</code></pre>
 <pre><code>## 
@@ -415,43 +503,43 @@ table(data$gender)</code></pre>
 
 ## Proportion of females to males is lower in people that have had a stroke, but not significant enough to extract any  meaning.
 
-male &lt;- data[data$gender == &quot;Male&quot;, ]
-female &lt;- data[data$gender == &quot;Female&quot;,]
+male &lt;- newData[newData$gender == &quot;Male&quot;, ]
+female &lt;- newData[newData$gender == &quot;Female&quot;,]
 
 summary(male)</code></pre>
-<pre><code>##        id           gender               age         hypertension  
-##  Min.   :   84   Length:2115        Min.   : 0.08   Min.   :0.000  
-##  1st Qu.:17696   Class :character   1st Qu.:22.00   1st Qu.:0.000  
-##  Median :36666   Mode  :character   Median :46.00   Median :0.000  
-##  Mean   :36563                      Mean   :42.48   Mean   :0.105  
-##  3rd Qu.:55195                      3rd Qu.:61.00   3rd Qu.:0.000  
-##  Max.   :72882                      Max.   :82.00   Max.   :1.000  
+<pre><code>##        id           gender               age         hypertension    
+##  Min.   :   84   Length:2011        Min.   : 0.08   Min.   :0.00000  
+##  1st Qu.:18629   Class :character   1st Qu.:21.00   1st Qu.:0.00000  
+##  Median :37446   Mode  :character   Median :45.00   Median :0.00000  
+##  Mean   :37224                      Mean   :42.05   Mean   :0.09945  
+##  3rd Qu.:55656                      3rd Qu.:60.50   3rd Qu.:0.00000  
+##  Max.   :72882                      Max.   :82.00   Max.   :1.00000  
 ##  heart_disease     ever_married        work_type         Residence_type    
-##  Min.   :0.00000   Length:2115        Length:2115        Length:2115       
+##  Min.   :0.00000   Length:2011        Length:2011        Length:2011       
 ##  1st Qu.:0.00000   Class :character   Class :character   Class :character  
 ##  Median :0.00000   Mode  :character   Mode  :character   Mode  :character  
-##  Mean   :0.07707                                                           
+##  Mean   :0.07111                                                           
 ##  3rd Qu.:0.00000                                                           
 ##  Max.   :1.00000                                                           
 ##  avg_glucose_level     bmi            smoking_status         stroke       
-##  Min.   : 55.22    Length:2115        Length:2115        Min.   :0.00000  
-##  1st Qu.: 78.37    Class :character   Class :character   1st Qu.:0.00000  
-##  Median : 93.55    Mode  :character   Mode  :character   Median :0.00000  
-##  Mean   :109.09                                          Mean   :0.05106  
-##  3rd Qu.:117.73                                          3rd Qu.:0.00000  
+##  Min.   : 55.22    Length:2011        Length:2011        Min.   :0.00000  
+##  1st Qu.: 78.27    Class :character   Class :character   1st Qu.:0.00000  
+##  Median : 93.51    Mode  :character   Mode  :character   Median :0.00000  
+##  Mean   :108.13                                          Mean   :0.04426  
+##  3rd Qu.:116.57                                          3rd Qu.:0.00000  
 ##  Max.   :271.74                                          Max.   :1.00000</code></pre>
 <pre class="r"><code>table(male$ever_married)</code></pre>
 <pre><code>## 
 ##   No  Yes 
-##  763 1352</code></pre>
+##  740 1271</code></pre>
 <pre class="r"><code>table(male$work_type)</code></pre>
 <pre><code>## 
 ##      children      Govt_job  Never_worked       Private Self-employed 
-##           361           258            11          1170           315</code></pre>
+##           351           246            11          1105           298</code></pre>
 <pre class="r"><code>table(male$smoking_status)</code></pre>
 <pre><code>## 
 ## formerly smoked    never smoked          smokes         Unknown 
-##             407             663             337             708</code></pre>
+##             378             649             312             672</code></pre>
 <pre class="r"><code># 5% chance for Male to have a stroke
 # Avg male age for dataset is 42.5
 # Avg Male hypertension is 10.5%
@@ -461,40 +549,61 @@ summary(male)</code></pre>
 # 55.3% Chance for Male to work Private
 # 47.1% Chance for Male to never have smoked
 
+sd(male$age)</code></pre>
+<pre><code>## [1] 23.47745</code></pre>
+<pre class="r"><code>sd(male$heart_disease)</code></pre>
+<pre><code>## [1] 0.2570706</code></pre>
+<pre class="r"><code>sd(male$bmi)</code></pre>
+<pre><code>## [1] 7.464493</code></pre>
+<pre class="r"><code>sd(male$avg_glucose_level)</code></pre>
+<pre><code>## [1] 46.49942</code></pre>
+<pre class="r"><code>sd(male$hypertension)</code></pre>
+<pre><code>## [1] 0.2993437</code></pre>
+<pre class="r"><code>sd(male$stroke)</code></pre>
+<pre><code>## [1] 0.2057158</code></pre>
+<pre class="r"><code>## Standard Deviation:
+# Age: 23.48
+# Heart Disease: 0.26
+# BMI: 7.46
+# Glucose: 46.50
+# Hypertension: 0.30
+# Stroke: 0.21
+
+
 summary(female)</code></pre>
 <pre><code>##        id           gender               age         hypertension    
-##  Min.   :   67   Length:2994        Min.   : 0.08   Min.   :0.00000  
-##  1st Qu.:17797   Class :character   1st Qu.:27.00   1st Qu.:0.00000  
-##  Median :37093   Mode  :character   Median :44.00   Median :0.00000  
-##  Mean   :36480                      Mean   :43.76   Mean   :0.09218  
-##  3rd Qu.:54310                      3rd Qu.:61.00   3rd Qu.:0.00000  
+##  Min.   :   77   Length:2897        Min.   : 0.08   Min.   :0.00000  
+##  1st Qu.:18605   Class :character   1st Qu.:26.00   1st Qu.:0.00000  
+##  Median :37651   Mode  :character   Median :44.00   Median :0.00000  
+##  Mean   :36947                      Mean   :43.44   Mean   :0.08664  
+##  3rd Qu.:54782                      3rd Qu.:60.00   3rd Qu.:0.00000  
 ##  Max.   :72940                      Max.   :82.00   Max.   :1.00000  
 ##  heart_disease     ever_married        work_type         Residence_type    
-##  Min.   :0.00000   Length:2994        Length:2994        Length:2994       
+##  Min.   :0.00000   Length:2897        Length:2897        Length:2897       
 ##  1st Qu.:0.00000   Class :character   Class :character   Class :character  
 ##  Median :0.00000   Mode  :character   Mode  :character   Mode  :character  
-##  Mean   :0.03774                                                           
+##  Mean   :0.03452                                                           
 ##  3rd Qu.:0.00000                                                           
 ##  Max.   :1.00000                                                           
 ##  avg_glucose_level     bmi            smoking_status         stroke       
-##  Min.   : 55.12    Length:2994        Length:2994        Min.   :0.00000  
-##  1st Qu.: 76.43    Class :character   Class :character   1st Qu.:0.00000  
-##  Median : 90.75    Mode  :character   Mode  :character   Median :0.00000  
-##  Mean   :104.06                                          Mean   :0.04709  
-##  3rd Qu.:112.18                                          3rd Qu.:0.00000  
+##  Min.   : 55.12    Length:2897        Length:2897        Min.   :0.00000  
+##  1st Qu.: 76.30    Class :character   Class :character   1st Qu.:0.00000  
+##  Median : 90.52    Mode  :character   Mode  :character   Median :0.00000  
+##  Mean   :103.33                                          Mean   :0.04142  
+##  3rd Qu.:112.02                                          3rd Qu.:0.00000  
 ##  Max.   :267.76                                          Max.   :1.00000</code></pre>
 <pre class="r"><code>table(female$ever_married)</code></pre>
 <pre><code>## 
 ##   No  Yes 
-##  993 2001</code></pre>
+##  964 1933</code></pre>
 <pre class="r"><code>table(female$work_type)</code></pre>
 <pre><code>## 
 ##      children      Govt_job  Never_worked       Private Self-employed 
-##           326           399            11          1754           504</code></pre>
+##           320           384            11          1705           477</code></pre>
 <pre class="r"><code>table(female$smoking_status)</code></pre>
 <pre><code>## 
 ## formerly smoked    never smoked          smokes         Unknown 
-##             477            1229             452             836</code></pre>
+##             458            1203             425             811</code></pre>
 <pre class="r"><code># 4.7% chance for Female to have a stroke
 # Avg Female age for dataset is 43.8
 # Avg Female hypertension is 9.2%
@@ -504,6 +613,30 @@ summary(female)</code></pre>
 # 58.6% Chance for Female to work Private
 # 57% Chance for Female to never have smoked
 
+<<<<<<< HEAD
+=======
+sd(female$age)</code></pre>
+<pre><code>## [1] 21.87985</code></pre>
+<pre class="r"><code>sd(female$heart_disease)</code></pre>
+<pre><code>## [1] 0.1825882</code></pre>
+<pre class="r"><code>sd(female$bmi)</code></pre>
+<pre><code>## [1] 8.110783</code></pre>
+<pre class="r"><code>sd(female$avg_glucose_level)</code></pre>
+<pre><code>## [1] 42.82504</code></pre>
+<pre class="r"><code>sd(female$hypertension)</code></pre>
+<pre><code>## [1] 0.2813573</code></pre>
+<pre class="r"><code>sd(female$stroke)</code></pre>
+<pre><code>## [1] 0.199299</code></pre>
+<pre class="r"><code>## Standard Deviation:
+# Age: 21.88
+# Heart Disease: 0.18
+# BMI: 8.11
+# Glucose:
+# Hypertension: 0.28
+# Stroke: 0.20
+
+
+>>>>>>> 3ccb24df17af9b6ab6b5bd7cbe65f1bb44d8d724
 # From this we can tell that in this dataset, females are much less likely to have heart disease, have been married, and have smoked.</code></pre>
 <pre class="r"><code>data %&gt;% filter(gender != &quot;Other&quot;) %&gt;% group_by(`gender`,smoking_status,heart_disease) %&gt;% 
   mutate(stroke_avg = sum(stroke)/n()) %&gt;%

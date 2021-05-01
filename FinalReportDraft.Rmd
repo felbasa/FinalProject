@@ -1,0 +1,196 @@
+---
+title: "FinalReport Draft"
+author: "Felix Baez-Santiago"
+date: "5/1/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+---
+title: "How likely are you to get a stroke?"
+author: "Felix Baez-Santiago, Carter Meseck, Ryan Herren, Austin Nebel, "
+date: "4/27/2021"
+output: html_document
+---
+# 0. Imports and Cleaning: This is the section where we have our library imports, dataset import and cleaning. 
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(ggplot2)
+library(ggpubr)
+library(readr)
+library(readxl)
+library(dplyr)
+library(qwraps2)
+library(expss)
+library(devtools)
+data <- read.csv("healthcare-dataset-stroke-data.csv")
+names(data)
+str(data)
+```
+
+# 1. Dataset Background: 
+
+Our dataset contains information for different factors that are often related to strokes. A stroke is a medical emergency where blood supply is suddenly cut off from the brain. Strokes are very dangerous as they are believed to cause around a tenth of all deaths in the United States. We used this dataset to answer different questions based on factors such as gender, age, smoking status and many more. Each row of the dataset provides relevant information to one of 500 patients. 
+
+# Dataset Variables:
+1. id: identifier for patient
+2. gender: "Male", "Female" or "Other"
+3. age: age of the patient in years
+4. hypertension: 0 if the patient doesn't have hypertension, 1 if the patient has hypertension
+5. heart_disease: 0 if the patient doesn't have any heart diseases, 1 if the patient has a heart disease
+6. ever_married: "No" or "Yes"
+7. work_type: "children", "Govt_jov", "Never_worked", "Private" or "Self-employed"
+8. Residence_type: "Rural" or "Urban"
+9. avg_glucose_level: average glucose level in blood
+10. bmi: body mass index
+11. smoking_status: "formerly smoked", "never smoked", "smokes" or "Unknown"*
+12. stroke: 1 if the patient had a stroke or 0 if not
+
+Note: "Unknown" in smoking_status means that the information is unavailable for this patient
+
+# 2. How did we obtain the data?
+We found the dataset on Kaggle. Our team agreed to use this data because it is a very common health problem and it is very interesting to understand it. Carter found the dataset, downloaded it and suggested it to the group. Here is the link to the original dataset on Kaggle: https://www.kaggle.com/fedesoriano/stroke-prediction-dataset
+
+
+# 3. Data Analyses: 
+Our analyses explored relationships, associations and possible causations between the different stroke variables. We formatted each as questions and answered them using R. Below are the different analyses:
+
+## Question 1: Are strokes more likely to happen as people age?
+This chart explores the trend of strokes vs peoples ages.
+Author: Ryan Herren
+```{r}
+strokes <- data[which(data$stroke == 1 & data$bmi != 'N/A'), ]
+ggplot(strokes, aes(x = age)) + geom_bar(color = 'red') + xlab("Age") + ylab("Number of Strokes") + ggtitle("Number of Strokes by Age")
+``` 
+
+Conclusion (Felix): According to the histogram, we see that strokes gradually increase as age increases. There is a left skew present, which indicates positive correlation. Its distribution is bimodal with most strokes occurring around the age of 80.
+
+## Question 2: How are bmi and age related?
+This chart explores the bmi and age of all people who reported having a stroke.
+Author: Ryan Herren
+```{r}
+ggplot(strokes, aes(x=age, y = as.numeric(bmi))) + geom_point() + labs(x = "Age", y = "BMI") + ggtitle("BMI vs Age")
+```
+
+Conclusion: 
+## Question 3: This chart explores the bmi and age of all people in the data set, whether or not they've had a stroke before. 
+Author: Ryan Herren
+```{r}
+data1 <- na.omit(data)
+data1 <- data1[which(data1$bmi != 'N/A'), ]
+vstroke <- data1[which(data1$stroke == 1), ]
+vnostroke <- data1[which(data1$stroke == 0) ,]
+p1 <- ggplot() + geom_point(vnostroke, mapping = aes(x = age, y = as.numeric(bmi))) + geom_point(vstroke, mapping = aes(x = age, y = as.numeric(bmi), colour = 'red'))
+p1 + labs(x = "Age", y = "BMI") + ggtitle("Age vs Body Mass Index \nAll individuals who have had a stroke are marked by a red dot") + theme(legend.position = "none")
+```
+
+## Question 4: Exploration
+This chart explores the relationship between Average Glucose Level, BMI, and stroke occurences.  
+Author: Ryan Herren
+```{r}
+AGLBMI <- na.omit(data)
+AGLBMI <- AGLBMI[which(AGLBMI$bmi != 'N/A' & AGLBMI$avg_glucose_level != 'N/A'), ]
+AGLBMIS <- AGLBMI[which(data1$stroke == 1), ]
+AGLBMINS <- AGLBMI[which(data1$stroke == 0), ]
+p2 <- ggplot() + geom_point(AGLBMINS, mapping = aes(x = avg_glucose_level, y = as.numeric(bmi))) + geom_point(AGLBMIS, mapping = aes(x = avg_glucose_level, y = as.numeric(bmi), colour = 'red'))
+p2 + labs(x = "Average Glucose Level", y = "BMI") + ggtitle("Average Glucose Level vs Body Mass Index \nAll individuals who have had a stroke are marked by a red dot") + theme(legend.position = "none")
+```
+```{r, echo=FALSE}
+no_strokes <- data[which(data$stroke == 0 & data$bmi != "N/A"), ]
+
+sma <- mean(strokes[["age"]])
+nma <- mean(no_strokes[["age"]])
+
+smh <- mean(strokes[["hypertension"]])
+nmh <- mean(no_strokes[["hypertension"]])
+
+smhd <- mean(strokes[["heart_disease"]])
+nmhd <- mean(no_strokes[["heart_disease"]])
+
+smagl <- mean(strokes[["avg_glucose_level"]])
+nmagl <- mean(no_strokes[["avg_glucose_level"]])
+
+smbmi <- mean(as.numeric(strokes[["bmi"]]))
+nmbmi <- mean(as.numeric(no_strokes[["bmi"]]))
+```
+
+Below is simple mean values from dividing the dataset into two separate ones - one with stroke patients, one without. 
+
+<table>
+<tr>
+<td>Statistic     <br></td>
+<td>Stroke Patient     <br></td>
+<td>Non-Stroke Patient     <br></td>
+</tr>
+<tr>
+<td>Age</td>
+<td>67.71292</td>
+<td>41.97154</td>
+</tr>
+<tr>
+<td>Probability of Hypertension</td>
+<td>0.2870813</td>
+<td>0.08319149</td>
+</tr>
+<tr>
+<td>Probability of Heart Disease</td>
+<td>0.1913876</td>
+<td>0.04319149</td>
+</tr>
+<tr>
+<td>Average Glucose Level</td>
+<td>134.5714</td>
+<td>104.0037</td>
+</tr>
+<tr>
+<td>BMI</td>
+<td>30.47129</td>
+<td>28.82306</td>
+</tr>
+</table>
+
+Q4 Conclusion (Ryan Herren): 
+This table shows a lot of valuable information. The average stroke patient is 26 years older than the average non-stroke patient, 20% more likely to have hypertension, 15% more likely to have heart disease, has an average glucose level 30 points higher than non-stroke patients, and is 1.6 higher on the BMI scale.
+  This can lead to drawing many significant solutions. Age is obviously a huge factor in your likelihood to have a stroke. Followed by hypertension and heart disease, which both put you at a higher risk of a stroke. The average glucose level is definitely a factor as well, shown by the 30 point increase on average for a stroke patient. The least significant result here is Body Mass Index. The average body mass index difference between stroke and non-stroke patients is just 1.65. This is a small number on the BMI scale, and both of these values actually lie on the upper end of the overweight category of the BMI scale.
+
+## Question 5: Finding average person vs average person who's had a stroke.
+Author: Carter
+
+```{r}
+strokes <- data[which(data$stroke == 1 & data$bmi != 'N/A'), ]
+
+summary(strokes)
+table(strokes$gender)
+table(strokes$Residence_type)
+table(strokes$ever_married)
+table(strokes$work_type)
+table(strokes$smoking_status)
+```
+## Question 6: Find average age of people by smoke group.
+Author: Carter Meseck
+```{r}
+smoke <- data[data$smoking_status == "smokes" | data$smoking_status == "formerly smoked", ]
+summary(smoke)
+
+noSmoke <- data[data$smoking_status == "never smoked", ]
+summary(noSmoke)
+
+```
+## Question 7: 
+
+
+
+# 4. Challenges faced and techniques used
+* Breakdown of each individual's problems 
+Carter: Encountered NA values and had to n. 
+Ryan: 
+Austin: 
+
+# 5. featured infographics to showcase your main findings
+* We need to talk about our graphs in relation to our questions
+
+# 6. Your other findings and conclusion
+* Write a very good conclusion to our presentation and fun facts that we learned

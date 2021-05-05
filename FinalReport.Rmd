@@ -1,4 +1,15 @@
 ---
+title: "Final Report: Stroke Data Analysis"
+author: "Felix Baez-Santiago, Carter Meseck, Ryan Herren and Austin Nebel"
+date: "5/1/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+---
 title: "How likely are you to get a stroke?"
 author: "Felix Baez-Santiago, Carter Meseck, Ryan Herren, Austin Nebel, "
 date: "4/27/2021"
@@ -16,6 +27,8 @@ library(qwraps2)
 library(expss)
 library(devtools)
 data <- read.csv("healthcare-dataset-stroke-data.csv")
+names(data)
+str(data)
 ```
 
 # 1. Dataset Background: 
@@ -59,10 +72,10 @@ Conclusion (Felix): According to the histogram, we see that strokes gradually in
 This chart explores the bmi and age of all people who reported having a stroke.
 Author: Ryan Herren
 ```{r}
-ggplot(strokes, aes(x=age, y = as.numeric(bmi))) + geom_point() + labs(x = "Age", y = "BMI")
+ggplot(strokes, aes(x=age, y = as.numeric(bmi))) + geom_point() + labs(x = "Age", y = "BMI") + ggtitle("BMI vs Age")
 ```
 
-Conclusion: 
+
 ## Question 3: This chart explores the bmi and age of all people in the data set, whether or not they've had a stroke before. 
 Author: Ryan Herren
 ```{r}
@@ -167,17 +180,55 @@ summary(noSmoke)
 
 ```
 ## Question 7: 
+Author: Carter Meseck
+```{r}
+data %>% filter(gender != "Other") %>% group_by(`gender`,smoking_status,heart_disease) %>% 
+  mutate(stroke_avg = sum(stroke)/n()) %>%
+  
+  ggplot(aes(x = `gender`, y=`stroke_avg`, fill = `smoking_status`)) + geom_bar(stat="identity", position = "dodge") + 
+  
+    facet_grid(rows = (data %>% filter(gender != "Other"))$heart_disease, labeller = as_labeller(c("0"="Heart Disease", "1"="No Heart Disease"))) + 
+    
+    ggtitle("Percentage of Strokes in Relation to Gender, Smoking Status, and Heart Disease") + 
+    xlab("Gender") + ylab("Stroke Risk")  +
+    scale_y_continuous(labels = scales::percent) +
+    scale_fill_discrete(name="Smoking Status", labels=c("Former Smoker", "Never Smoked", "Smokes", "Unknown"))
 
 
+```
+## Question 8: How does working environment and residence type affect stroke chances?
+author: Austin Nebel
+```{r}
+data %>% group_by(work_type, Residence_type) %>%
+  mutate(stroke_avg = sum(stroke)/n()) %>%
+  ggplot(aes(x = `work_type`, y=`stroke_avg`, fill = `Residence_type`)) + geom_bar(stat="identity", position = "dodge") + 
+  xlab("Working Environment") + ylab("Stroke Risk")  + labs(fill = "Residence Type") + 
+  scale_x_discrete(labels=c("children" = "Children", "Govt_job" = "Gov. Job", "Never_worked" = "Never Worked", "Private" = "Private", "Self-employed" = "Self-Employed")) +
+  scale_y_continuous(labels = scales::percent) +
+  ggtitle("Percentage of Strokes in Relation to Working Environment and Residence")
 
-# 4. Challenges faced and techniques used
-* Breakdown of each individual's problems 
-Carter: Encountered NA values and had to reformat BMI to numeric because values were char. 
-Ryan: 
-Austin: 
+```
+The above bar graph suggests that working environment plays a large role in the chance of a stroke, and even residence type can be a small factor. Those living in urban households consistently had slightly more strokes that those in rural households. What is more compelling is that the working environment significantly changed the amount of strokes; those that are self-employed had nearly a 1 in 10 chance of having a stroke. On the contrary, those that stayed home to raise children had less than 0.5% chance of developing a stroke in their lifetime. 
 
-# 5. featured infographics to showcase your main findings
-* We need to talk about our graphs in relation to our questions
+Notice that those that never worked do not even appear on this graph; this is most likely because the data set had a very small number of people that never worked and is most likely not a fully accurate representation for that category.
 
-# 6. Your other findings and conclusion
-* Write a very good conclusion to our presentation and fun facts that we learned
+## Question 9: Are work type and age related?
+author: Austin Nebel
+```{r}
+data %>% group_by(work_type) %>%
+  ggplot(aes(x = `work_type`, y=`age`, fill = `work_type`)) + geom_boxplot() + 
+  xlab("Working Environment") + ylab("Age")  + theme(legend.position = "none") + 
+  scale_x_discrete(labels=c("children" = "Children", "Govt_job" = "Gov. Job", "Never_worked" = "Never Worked", "Private" = "Private", "Self-employed" = "Self-Employed")) +
+  ggtitle("Age Groups of Each Working Environment")
+```
+From this box plot, the previous investigation makes sense. Those that are self employed had the highest chance of having a stroke and from this plot they seem to also have the highest age group. Also, those with the lowest chance of having a stroke (besides those that were never employed) are in the lowest age group. This suggests that working environment may not have a direct impact on stroke risk, but rather age has an impact on working environment.
+
+# 4. Challenges Faced:
+1. Communication: Our team had different schedules and coordination was difficult. 
+2. Dataset used ‘N/A’ literals instead of NULL values. 
+3. Several variables had to be recast.
+4. Missing member: One of our team partners wasnt available for the project. 
+
+
+# 5. Conclusion
+The cause of strokes can be attributed to many different factors. Through our investigation, we’ve identified three main risk factors that contribute the most to having a stroke: Age, Smoking, and Pre-existing Heart Conditions. The most significant of these three is Heart Disease. As previously presented, people that have had a stroke are nearly 4x more likely to have heart disease. Secondly, with each increase of 10 years beyond 40, you become 23% more likely to have a stroke. Lastly, smoking, or having a history of smoking, makes you 40.6% more likely to experience a stroke. Combining these three risk factors- age, heart disease, and smoking, puts you in the highest risk category for having a stroke in the future.

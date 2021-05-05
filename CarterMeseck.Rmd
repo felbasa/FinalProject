@@ -93,7 +93,9 @@ summary(noSmoke)
 data %>% group_by(smoking_status) %>%
   mutate(age_avg = mean(age)) %>%
   ggplot(aes(x = `smoking_status`, y=`age_avg`, fill = `smoking_status`)) + geom_bar(stat="identity", position = "dodge") + 
-     ggtitle("Percentage of Strokes in Relation to Smoking Status")
+     ggtitle("Age in Relation to Smoking Status") +
+     scale_fill_discrete(name="Smoking Status", labels=c("Former Smoker", "Never Smoked", "Smokes", "Unknown")) +
+     xlab("Smoking Status") + ylab("Average Age")  
 
 
 ```
@@ -145,7 +147,7 @@ data %>% filter(gender != "Other") %>% group_by(`gender`,smoking_status,heart_di
   
   ggplot(aes(x = `gender`, y=`stroke_avg`, fill = `smoking_status`)) + geom_bar(stat="identity", position = "dodge") + 
   
-    facet_grid(rows = (data %>% filter(gender != "Other"))$heart_disease, labeller = as_labeller(c("0"="Heart Disease", "1"="No Heart Disease"))) + 
+    facet_grid(rows = (data %>% filter(gender != "Other"))$heart_disease, labeller = as_labeller(c("0"="No Heart Disease", "1"="Heart Disease"))) + 
     
     ggtitle("Percentage of Strokes in Relation to Gender, Smoking Status, and Heart Disease") + 
     xlab("Gender") + ylab("Stroke Risk")  +

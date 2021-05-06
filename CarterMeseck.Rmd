@@ -22,6 +22,7 @@ head(data)
 ```
 ```{r}
 ## Finding Average Person vs Average Person who has had a stroke.
+newData <- data[(data$bmi != 'N/A'),]
 
 summary(data)
 table(data$gender)
@@ -37,11 +38,27 @@ table(data$smoking_status)
 ## Average Person has 106.15 Glucose level
 ## Average Person has 9.7% chance to have hypertension
 ## Average person is a female
-## Average pesron has never smoked or unknown
+## Average person has never smoked or unknown
 ## Average person has a 4.9% chance to have had a stroke.
 ## Average person lives in an urban residence
 ## Average person is privately employed
 ## Average person has been married
+
+sd(data$age)
+sd(data$heart_disease)
+sd(newData$bmi)
+sd(data$avg_glucose_level)
+sd(data$hypertension)
+sd(data$stroke)
+
+
+## Standard Deviation:
+# Age: 22.61
+# Heart Disease: .226
+# BMI: 7.85
+# Glucose: 45.28
+# Hypertension: 0.30
+# Stroke: 0.22
 
 strokes <- data[which(data$stroke == 1 & data$bmi != 'N/A'), ]
 
@@ -64,6 +81,22 @@ table(strokes$smoking_status)
 ## Average Stroker is privately employed
 ## Average Stroker has been married
 
+sd(strokes$age)
+sd(strokes$heart_disease)
+sd(strokes$bmi)
+sd(strokes$avg_glucose_level)
+sd(strokes$hypertension)
+sd(strokes$stroke)
+
+
+## Standard Deviation:
+# Age: 12.4
+# Heart Disease: 0.39
+# BMI: 6.33
+# Glucose: 62.46
+# Hypertension: 0.45
+
+# For Strokers, the Standard Deviation for age seems to be much lower. It would seem then, that strokers are all around a close age.
 
 ```
 
@@ -75,11 +108,11 @@ table(strokes$smoking_status)
 
 
 ## Find average age of people by smoke group.
-smoke <- data[data$smoking_status == "smokes" | data$smoking_status == "formerly smoked", ]
+smoke <- newData[newData$smoking_status == "smokes" | newData$smoking_status == "formerly smoked", ]
 
 summary(smoke)
 
-noSmoke <- data[data$smoking_status == "never smoked", ]
+noSmoke <- newData[newData$smoking_status == "never smoked", ]
 
 summary(noSmoke)
 
@@ -92,11 +125,40 @@ summary(noSmoke)
 
 data %>% group_by(smoking_status) %>%
   mutate(age_avg = mean(age)) %>%
-  ggplot(aes(x = `smoking_status`, y=`age_avg`, fill = `smoking_status`)) + geom_bar(stat="identity", position = "dodge") + 
-     ggtitle("Age in Relation to Smoking Status") +
-     scale_fill_discrete(name="Smoking Status", labels=c("Former Smoker", "Never Smoked", "Smokes", "Unknown")) +
-     xlab("Smoking Status") + ylab("Average Age")  
+  ggplot(aes(x = `smoking_status`, y=`age_avg`, fill = `smoking_status`)) + geom_bar(stat="identity", position = "dodge") +
+    ggtitle("Age in Relation to Smoking Status") +
+    scale_fill_discrete(name="Smoking Status", labels=c("Former Smoker", "Never Smoked", "Smokes", "Unknown")) +
+    xlab("Smoking Status") + ylab("Average Age")
 
+sd(smoke$age)
+sd(smoke$heart_disease)
+sd(smoke$bmi)
+sd(smoke$avg_glucose_level)
+sd(smoke$hypertension)
+sd(smoke$stroke)
+
+## Standard Deviation:
+# Age: 17.51
+# Heart Disease: 0.28
+# BMI: 7.08
+# Glucose: 49.23
+# Hypertension: 0.33
+# Stroke: 0.24
+
+sd(noSmoke$age)
+sd(noSmoke$heart_disease)
+sd(noSmoke$bmi)
+sd(noSmoke$avg_glucose_level)
+sd(noSmoke$hypertension)
+sd(noSmoke$stroke)
+
+## Standard Deviation:
+# Age: 19.71
+# Heart Disease: 0.20
+# BMI: 7.46
+# Glucose: 46.34
+# Hypertension: 0.32
+# Stroke: 0.21
 
 ```
 ```{r}
@@ -108,8 +170,8 @@ table(data$gender)
 
 ## Proportion of females to males is lower in people that have had a stroke, but not significant enough to extract any  meaning.
 
-male <- data[data$gender == "Male", ]
-female <- data[data$gender == "Female",]
+male <- newData[newData$gender == "Male", ]
+female <- newData[newData$gender == "Female",]
 
 summary(male)
 table(male$ever_married)
@@ -124,10 +186,27 @@ table(male$smoking_status)
 # 55.3% Chance for Male to work Private
 # 47.1% Chance for Male to never have smoked
 
+sd(male$age)
+sd(male$heart_disease)
+sd(male$bmi)
+sd(male$avg_glucose_level)
+sd(male$hypertension)
+sd(male$stroke)
+
+## Standard Deviation:
+# Age: 23.48
+# Heart Disease: 0.26
+# BMI: 7.46
+# Glucose: 46.50
+# Hypertension: 0.30
+# Stroke: 0.21
+
+
 summary(female)
 table(female$ever_married)
 table(female$work_type)
 table(female$smoking_status)
+
 # 4.7% chance for Female to have a stroke
 # Avg Female age for dataset is 43.8
 # Avg Female hypertension is 9.2%
@@ -137,19 +216,35 @@ table(female$smoking_status)
 # 58.6% Chance for Female to work Private
 # 57% Chance for Female to never have smoked
 
+sd(female$age)
+sd(female$heart_disease)
+sd(female$bmi)
+sd(female$avg_glucose_level)
+sd(female$hypertension)
+sd(female$stroke)
+
+## Standard Deviation:
+# Age: 21.88
+# Heart Disease: 0.18
+# BMI: 8.11
+# Glucose:
+# Hypertension: 0.28
+# Stroke: 0.20
+
+
 # From this we can tell that in this dataset, females are much less likely to have heart disease, have been married, and have smoked.
 
 ```
 ```{r}
 
-data %>% filter(gender != "Other") %>% group_by(`gender`,smoking_status,heart_disease) %>% 
+data %>% filter(gender != "Other") %>% group_by(`gender`,smoking_status,heart_disease) %>%
   mutate(stroke_avg = sum(stroke)/n()) %>%
-  
-  ggplot(aes(x = `gender`, y=`stroke_avg`, fill = `smoking_status`)) + geom_bar(stat="identity", position = "dodge") + 
-  
-    facet_grid(rows = (data %>% filter(gender != "Other"))$heart_disease, labeller = as_labeller(c("0"="No Heart Disease", "1"="Heart Disease"))) + 
-    
-    ggtitle("Percentage of Strokes in Relation to Gender, Smoking Status, and Heart Disease") + 
+
+  ggplot(aes(x = `gender`, y=`stroke_avg`, fill = `smoking_status`)) + geom_bar(stat="identity", position = "dodge") +
+
+    facet_grid(rows = (data %>% filter(gender != "Other"))$heart_disease, labeller = as_labeller(c("0"="No Heart Disease", "1"="Heart Disease"))) +
+
+    ggtitle("Percentage of Strokes in Relation to Gender, Smoking Status, and Heart Disease") +
     xlab("Gender") + ylab("Stroke Risk")  +
     scale_y_continuous(labels = scales::percent) +
     scale_fill_discrete(name="Smoking Status", labels=c("Former Smoker", "Never Smoked", "Smokes", "Unknown"))

@@ -1,6 +1,6 @@
 ---
-title: "Final Report: Stroke Data Analysis"
-author: "Felix Baez-Santiago, Carter Meseck, Ryan Herren and Austin Nebel"
+title: "FinalReport Draft"
+author: "Felix Baez-Santiago"
 date: "5/1/2021"
 output: html_document
 ---

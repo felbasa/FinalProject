@@ -9,13 +9,9 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
----
-title: "How likely are you to get a stroke?"
-author: "Felix Baez-Santiago, Carter Meseck, Ryan Herren, Austin Nebel, "
-date: "4/27/2021"
-output: html_document
----
-# 0. Imports and Cleaning: This is the section where we have our library imports, dataset import and cleaning. 
+
+## 1. Imports and Initialization
+
 ```{r, warning=FALSE, message=FALSE}
 library(tidyverse)
 library(ggplot2)
@@ -31,11 +27,12 @@ names(data)
 str(data)
 ```
 
-# 1. Dataset Background: 
+## 2. Dataset Background
 
 Our dataset contains information for different factors that are often related to strokes. A stroke is a medical emergency where blood supply is suddenly cut off from the brain. Strokes are very dangerous as they are believed to cause around a tenth of all deaths in the United States. We used this dataset to answer different questions based on factors such as gender, age, smoking status and many more. Each row of the dataset provides relevant information to one of 500 patients. 
 
-# Dataset Variables:
+### Dataset Variables:
+
 1. id: identifier for patient
 2. gender: "Male", "Female" or "Other"
 3. age: age of the patient in years
@@ -51,16 +48,25 @@ Our dataset contains information for different factors that are often related to
 
 Note: "Unknown" in smoking_status means that the information is unavailable for this patient
 
-# 2. How did we obtain the data?
+
+
+## 3. How did we obtain the data?
+
 We found the dataset on Kaggle. Our team agreed to use this data because it is a very common health problem and it is very interesting to understand it. Carter found the dataset, downloaded it and suggested it to the group. Here is the link to the original dataset on Kaggle: https://www.kaggle.com/fedesoriano/stroke-prediction-dataset
 
 
-# 3. Data Analyses: 
+
+## 4. Data Analysis
+
 Our analyses explored relationships, associations and possible causations between the different stroke variables. We formatted each as questions and answered them using R. Below are the different analyses:
 
-## Question 1: Are strokes more likely to happen as people age?
+
+### Question 1: Are strokes more likely to happen as people age?
+
 This chart explores the trend of strokes vs peoples ages.
+
 Author: Ryan Herren
+
 ```{r}
 strokes <- data[which(data$stroke == 1 & data$bmi != 'N/A'), ]
 ggplot(strokes, aes(x = age)) + geom_bar(color = 'red') + xlab("Age") + ylab("Number of Strokes") + ggtitle("Number of Strokes by Age")
@@ -68,16 +74,24 @@ ggplot(strokes, aes(x = age)) + geom_bar(color = 'red') + xlab("Age") + ylab("Nu
 
 Conclusion (Felix): According to the histogram, we see that strokes gradually increase as age increases. There is a left skew present, which indicates positive correlation. Its distribution is bimodal with most strokes occurring around the age of 80.
 
-## Question 2: How are bmi and age related?
-This chart explores the bmi and age of all people who reported having a stroke.
+
+### Question 2: How are BMI and age related?
+
+This chart explores the BMI and age of all people who reported having a stroke.
+
 Author: Ryan Herren
+
 ```{r}
 ggplot(strokes, aes(x=age, y = as.numeric(bmi))) + geom_point() + labs(x = "Age", y = "BMI") + ggtitle("BMI vs Age")
 ```
 
 
-## Question 3: This chart explores the bmi and age of all people in the data set, whether or not they've had a stroke before. 
+### Question 3: Does BMI and age affect chances of having a stroke?
+
+This chart explores the BMI and age of all people in the data set, and whether or not they've had a stroke before. 
+
 Author: Ryan Herren
+
 ```{r}
 data1 <- na.omit(data)
 data1 <- data1[which(data1$bmi != 'N/A'), ]
@@ -87,9 +101,13 @@ p1 <- ggplot() + geom_point(vnostroke, mapping = aes(x = age, y = as.numeric(bmi
 p1 + labs(x = "Age", y = "BMI") + ggtitle("Age vs Body Mass Index \nAll individuals who have had a stroke are marked by a red dot") + theme(legend.position = "none")
 ```
 
-## Question 4: Exploration
-This chart explores the relationship between Average Glucose Level, BMI, and stroke occurences.  
+
+### Question 4: What is the relationship between glucose level, BMI, and stroke occurrences?
+
+This chart explores the relationship between Average Glucose Level, BMI, and stroke occurrences.  
+
 Author: Ryan Herren
+
 ```{r}
 AGLBMI <- na.omit(data)
 AGLBMI <- AGLBMI[which(AGLBMI$bmi != 'N/A' & AGLBMI$avg_glucose_level != 'N/A'), ]
@@ -119,45 +137,65 @@ nmbmi <- mean(as.numeric(no_strokes[["bmi"]]))
 
 Below is simple mean values from dividing the dataset into two separate ones - one with stroke patients, one without. 
 
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+
 <table>
 <tr>
-<td>Statistic     <br></td>
-<td>Stroke Patient     <br></td>
-<td>Non-Stroke Patient     <br></td>
+  <td>Statistic     <br></td>
+  <td>Stroke Patient     <br></td>
+  <td>Non-Stroke Patient     <br></td>
 </tr>
 <tr>
-<td>Age</td>
-<td>67.71292</td>
-<td>41.97154</td>
+  <td>Age</td>
+  <td>67.71292</td>
+  <td>41.97154</td>
 </tr>
 <tr>
-<td>Probability of Hypertension</td>
-<td>0.2870813</td>
-<td>0.08319149</td>
+  <td>Probability of Hypertension</td>
+  <td>0.2870813</td>
+  <td>0.08319149</td>
 </tr>
 <tr>
-<td>Probability of Heart Disease</td>
-<td>0.1913876</td>
-<td>0.04319149</td>
+  <td>Probability of Heart Disease</td>
+  <td>0.1913876</td>
+  <td>0.04319149</td>
 </tr>
 <tr>
-<td>Average Glucose Level</td>
-<td>134.5714</td>
-<td>104.0037</td>
+  <td>Average Glucose Level</td>
+  <td>134.5714</td>
+  <td>104.0037</td>
 </tr>
 <tr>
-<td>BMI</td>
-<td>30.47129</td>
-<td>28.82306</td>
+  <td>BMI</td>
+  <td>30.47129</td>
+  <td>28.82306</td>
 </tr>
 </table>
 
-Q4 Conclusion (Ryan Herren): 
-This table shows a lot of valuable information. The average stroke patient is 26 years older than the average non-stroke patient, 20% more likely to have hypertension, 15% more likely to have heart disease, has an average glucose level 30 points higher than non-stroke patients, and is 1.6 higher on the BMI scale.
+
+Conclusion (Ryan): This table shows a lot of valuable information. The average stroke patient is 26 years older than the average non-stroke patient, 20% more likely to have hypertension, 15% more likely to have heart disease, has an average glucose level 30 points higher than non-stroke patients, and is 1.6 higher on the BMI scale.
   This can lead to drawing many significant solutions. Age is obviously a huge factor in your likelihood to have a stroke. Followed by hypertension and heart disease, which both put you at a higher risk of a stroke. The average glucose level is definitely a factor as well, shown by the 30 point increase on average for a stroke patient. The least significant result here is Body Mass Index. The average body mass index difference between stroke and non-stroke patients is just 1.65. This is a small number on the BMI scale, and both of these values actually lie on the upper end of the overweight category of the BMI scale.
 
-## Question 5: Finding average person vs average person who's had a stroke.
-Author: Carter
+
+### Question 5: What is the "average person" and how do the compare to the "average person" that has had a stroke?
+
+Author: Carter Meseck
 
 ```{r}
 strokes <- data[which(data$stroke == 1 & data$bmi != 'N/A'), ]
@@ -169,8 +207,12 @@ table(strokes$ever_married)
 table(strokes$work_type)
 table(strokes$smoking_status)
 ```
-## Question 6: Find average age of people by smoke group.
+
+
+### Question 6: What is the average age of each smoking group?
+
 Author: Carter Meseck
+
 ```{r}
 smoke <- data[data$smoking_status == "smokes" | data$smoking_status == "formerly smoked", ]
 summary(smoke)
@@ -179,8 +221,12 @@ noSmoke <- data[data$smoking_status == "never smoked", ]
 summary(noSmoke)
 
 ```
-## Question 7: 
-Author: Carter Meseck
+
+
+### Question 7: How does gender, smoking status, and heart disease play in to strokes?
+
+Author: Austin Nebel
+
 ```{r}
 data %>% filter(gender != "Other") %>% group_by(`gender`,smoking_status,heart_disease) %>% 
   mutate(stroke_avg = sum(stroke)/n()) %>%
@@ -194,26 +240,34 @@ data %>% filter(gender != "Other") %>% group_by(`gender`,smoking_status,heart_di
     scale_y_continuous(labels = scales::percent) +
     scale_fill_discrete(name="Smoking Status", labels=c("Former Smoker", "Never Smoked", "Smokes", "Unknown"))
 
-
 ```
-## Question 8: How does working environment and residence type affect stroke chances?
-author: Austin Nebel
+
+Conclusion (Austin):  From this graph it can be seen that those with heart disease have a much greater risk of having a stroke than those without heart disease. It also appears that males the currently smoke and have heart disease are at by far the greatest risk of having a stroke with their chances being just over 30%. Something interesting from this graph is that, for females, current smokers have less of a chance of having a stroke than former smokers.
+
+### Question 8: How does working environment and residence type affect stroke chances?
+
+Author: Austin Nebel
+
 ```{r}
 data %>% group_by(work_type, Residence_type) %>%
   mutate(stroke_avg = sum(stroke)/n()) %>%
   ggplot(aes(x = `work_type`, y=`stroke_avg`, fill = `Residence_type`)) + geom_bar(stat="identity", position = "dodge") + 
-  xlab("Working Environment") + ylab("Stroke Risk")  + labs(fill = "Residence Type") + 
-  scale_x_discrete(labels=c("children" = "Children", "Govt_job" = "Gov. Job", "Never_worked" = "Never Worked", "Private" = "Private", "Self-employed" = "Self-Employed")) +
-  scale_y_continuous(labels = scales::percent) +
-  ggtitle("Percentage of Strokes in Relation to Working Environment and Residence")
+    xlab("Working Environment") + ylab("Stroke Risk")  + labs(fill = "Residence Type") + 
+    scale_x_discrete(labels=c("children" = "Children", "Govt_job" = "Gov. Job", "Never_worked" = "Never Worked", "Private" = "Private", "Self-employed" = "Self-Employed")) +
+    scale_y_continuous(labels = scales::percent) +
+    ggtitle("Percentage of Strokes in Relation to Working Environment and Residence")
 
 ```
-The above bar graph suggests that working environment plays a large role in the chance of a stroke, and even residence type can be a small factor. Those living in urban households consistently had slightly more strokes that those in rural households. What is more compelling is that the working environment significantly changed the amount of strokes; those that are self-employed had nearly a 1 in 10 chance of having a stroke. On the contrary, those that stayed home to raise children had less than 0.5% chance of developing a stroke in their lifetime. 
+
+Conclusion (Austin):The above bar graph suggests that working environment plays a large role in the chance of a stroke, and even residence type can be a small factor. Those living in urban households consistently had slightly more strokes that those in rural households. What is more compelling is that the working environment significantly changed the amount of strokes; those that are self-employed had nearly a 1 in 10 chance of having a stroke. On the contrary, those that stayed home to raise children had less than 0.5% chance of developing a stroke in their lifetime. 
 
 Notice that those that never worked do not even appear on this graph; this is most likely because the data set had a very small number of people that never worked and is most likely not a fully accurate representation for that category.
 
-## Question 9: Are work type and age related?
-author: Austin Nebel
+
+### Question 9: Are work type and age related?
+
+Author: Austin Nebel
+
 ```{r}
 data %>% group_by(work_type) %>%
   ggplot(aes(x = `work_type`, y=`age`, fill = `work_type`)) + geom_boxplot() + 
@@ -221,14 +275,19 @@ data %>% group_by(work_type) %>%
   scale_x_discrete(labels=c("children" = "Children", "Govt_job" = "Gov. Job", "Never_worked" = "Never Worked", "Private" = "Private", "Self-employed" = "Self-Employed")) +
   ggtitle("Age Groups of Each Working Environment")
 ```
-From this box plot, the previous investigation makes sense. Those that are self employed had the highest chance of having a stroke and from this plot they seem to also have the highest age group. Also, those with the lowest chance of having a stroke (besides those that were never employed) are in the lowest age group. This suggests that working environment may not have a direct impact on stroke risk, but rather age has an impact on working environment.
 
-# 4. Challenges Faced:
+Conclusion (Austin): From this box plot, the previous investigation makes sense. Those that are self employed had the highest chance of having a stroke and from this plot they seem to also have the highest age group. Also, those with the lowest chance of having a stroke (besides those that were never employed) are in the lowest age group. This suggests that working environment may not have a direct impact on stroke risk, but rather age has an impact on working environment.
+
+
+## 5. Challenges Faced
+
 1. Communication: Our team had different schedules and coordination was difficult. 
 2. Dataset used ‘N/A’ literals instead of NULL values. 
 3. Several variables had to be recast.
 4. Missing member: One of our team partners wasnt available for the project. 
 
 
-# 5. Conclusion
+## 6. Conclusion
+
 The cause of strokes can be attributed to many different factors. Through our investigation, we’ve identified three main risk factors that contribute the most to having a stroke: Age, Smoking, and Pre-existing Heart Conditions. The most significant of these three is Heart Disease. As previously presented, people that have had a stroke are nearly 4x more likely to have heart disease. Secondly, with each increase of 10 years beyond 40, you become 23% more likely to have a stroke. Lastly, smoking, or having a history of smoking, makes you 40.6% more likely to experience a stroke. Combining these three risk factors- age, heart disease, and smoking, puts you in the highest risk category for having a stroke in the future.
+
